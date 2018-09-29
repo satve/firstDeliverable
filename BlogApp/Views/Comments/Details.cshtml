@@ -1,4 +1,15 @@
 ﻿@model BlogApp.Models.Comment
+<!-- Bootstrap Core CSS -->
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Custom Fonts -->
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+<link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+<!-- Theme CSS -->
+<link href="~/Content/grayscale.min.css" rel="stylesheet" />
 
 @{
     ViewBag.Title = "Details";
@@ -57,9 +68,9 @@
         <dd>
             @Html.DisplayFor(model => model.UpdateReason)
         </dd>
-
     </dl>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

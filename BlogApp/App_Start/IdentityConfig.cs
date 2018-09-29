@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using BlogApp.Models;
+using System.Net.Mail;
+using System.Web.Configuration;
 
 namespace BlogApp
 {
@@ -18,8 +20,16 @@ namespace BlogApp
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var personalEmailService = new PersonalEmailService();
+            var mailMessage = new MailMessage(
+               WebConfigurationManager.AppSettings["emailto"],
+
+               message.Destination
+               );
+            mailMessage.Body = message.Body;
+            mailMessage.Subject = message.Subject;
+            return personalEmailService.SendAsync(mailMessage);
+
         }
     }
 

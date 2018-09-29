@@ -1,5 +1,16 @@
 ﻿@model BlogApp.Models.BlogPost
+<!-- Bootstrap Core CSS -->
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 
+<!-- Custom Fonts -->
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+<link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+<!-- Theme CSS -->
+<link href="~/Content/grayscale.min.css" rel="stylesheet" />
+<link href="~/Content/new.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Details";
 }
@@ -51,13 +62,13 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MediaUrl) bbbbb
+            @Html.DisplayNameFor(model => model.MediaUrl)
         </dt>
 
         <dd>
             @if (Model.MediaUrl != null)
             {
-             <img class="img-responsive" src="@Model.MediaUrl" alt="">
+                <img class="img-responsive" src="@Model.MediaUrl" alt="">
             }
         </dd>
 
@@ -71,6 +82,40 @@
 
     </dl>
 </div>
+<div>
+    Comments:
+    @foreach (var comment in Model.Comments)
+    {
+        <p>
+            @comment.Body - by @comment.Author.DisplayName - @comment.Created.ToString("dd/MM/yyyy HH:mm")
+        </p>
+        if (User.Identity.IsAuthenticated &&
+            (User.IsInRole("Admin") || User.IsInRole("Moderator")))
+        {
+            <a href="@Url.Action("Edit", "Comments", new { id = comment.Id } )">Edit Comment</a>
+            <a href="@Url.Action("Delete", "Comments", new { id = comment.Id })">Delete Comment</a>
+        }
+    }
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div>
+        Submit your comment!
+    </div>
+    <div>
+        @using (Html.BeginForm("Details", "BlogPosts", FormMethod.Post))
+        {
+            <input type="hidden" name="slug" value="@Model.Slug" />
+            <textarea id="new" name="Body"></textarea>
+            if (ViewBag.ErrorMessage != null)
+            {
+                <span>@ViewBag.ErrorMessage</span>
+            }
+            <input id="new1" type="submit" value="Submit" />
+        }
+    </div>
+}
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

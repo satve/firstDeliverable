@@ -1,9 +1,23 @@
 ﻿@model IEnumerable<BlogApp.Models.BlogPost>
+<!-- Bootstrap Core CSS -->
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Custom Fonts -->
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+<link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+<!-- Theme CSS -->
+<link href="~/Content/grayscale.min.css" rel="stylesheet" />
 
 @{
     ViewBag.Title = "Index";
+    var pagedList = (IPagedList)Model;
 }
+@using PagedList;
 
+@using PagedList.Mvc;
 <h2>Index</h2>
 
 <p>
@@ -12,6 +26,13 @@
         @Html.ActionLink("Create New", "Create")
     }
 </p>
+
+@using (Html.BeginForm("Index", "BlogPosts", FormMethod.Get))
+{
+    <input type="text" class="form-control" name="searchString" placeholder="Search for posts" value="@ViewBag.SearchString" />
+    <input type="submit" class="btn btn-primary" value="Search!" />
+}
+
 <table class="table">
     <tr>
         <th>
@@ -38,39 +59,43 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Updated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Slug)
-        </td>
-        <td>
-            @Html.Raw(item.Body)
-        </td>
-        <td>
-            @if (item.MediaUrl != null)
-            {
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Updated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug)
+            </td>
+            <td>
+                @Html.Raw(item.Body)
+            </td>
+            <td>
+                @if (item.MediaUrl != null)
+                {
 
-            <img class="img-responsive" src="@item.MediaUrl" alt="">
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Published)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })|
-            @Html.ActionLink("Details", "Details", new { slug = item.Slug })
-        </td>
-    </tr>
-}
+                    <img class="img-responsive" src="@item.MediaUrl" alt="">
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Published)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })|
+                @Html.ActionLink("Details", "Details", new { slug = item.Slug })
+            </td>
+        </tr>
+    }
 
 </table>
+
+Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of @pagedList.PageCount
+@Html.PagedListPager(pagedList, page => Url.Action("Index", new { page, ViewBag.SearchString }))

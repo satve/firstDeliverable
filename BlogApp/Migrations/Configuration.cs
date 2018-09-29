@@ -32,6 +32,8 @@ namespace BlogApp.Migrations
             //Check if the admin user is already created.
             //If not, create it.
             ApplicationUser adminUser = null;
+            ApplicationUser moderatorUser = null;
+
 
             if (!context.Users.Any(p => p.UserName == "admin01@gmail.com"))
             {
@@ -49,15 +51,6 @@ namespace BlogApp.Migrations
                     .FirstOrDefault();
             }
 
-            //Check if the adminUser is already on the Admin role
-            //If not, add it.
-            if (!userManager.IsInRole(adminUser.Id, "Admin"))
-            {
-                userManager.AddToRole(adminUser.Id, "Admin");
-            }
-
-            ApplicationUser moderatorUser = null;
-
             if (!context.Users.Any(p => p.UserName == "moderator01@gmail.com"))
             {
                 moderatorUser = new ApplicationUser();
@@ -73,6 +66,13 @@ namespace BlogApp.Migrations
             {
                 moderatorUser = context.Users.Where(p => p.UserName == "moderator01@gmail.com")
                     .FirstOrDefault();
+            }
+
+            //Check if the adminUser is already on the Admin role
+            //If not, add it.
+            if (!userManager.IsInRole(adminUser.Id, "Admin"))
+            {
+                userManager.AddToRole(adminUser.Id, "Admin");
             }
 
             //Check if the moderatorUser is already on the Admin role

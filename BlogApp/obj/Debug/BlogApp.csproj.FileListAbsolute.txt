@@ -118,3 +118,7 @@ c:\users\sd12\source\repos\BlogApp\BlogApp\obj\Debug\BlogApp.csproj.CoreCompileI
 c:\users\sd12\source\repos\BlogApp\BlogApp\obj\Debug\BlogApp.csproj.CopyComplete
 c:\users\sd12\source\repos\BlogApp\BlogApp\obj\Debug\BlogApp.dll
 c:\users\sd12\source\repos\BlogApp\BlogApp\obj\Debug\BlogApp.pdb
+C:\Users\SD12\source\repos\BlogApp\BlogApp\bin\PagedList.dll
+C:\Users\SD12\source\repos\BlogApp\BlogApp\bin\PagedList.Mvc.dll
+C:\Users\SD12\source\repos\BlogApp\BlogApp\bin\PagedList.xml
+C:\Users\SD12\source\repos\BlogApp\BlogApp\bin\PagedList.Mvc.xml
